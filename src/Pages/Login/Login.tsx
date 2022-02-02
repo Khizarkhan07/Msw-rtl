@@ -8,6 +8,7 @@ import { LoginFormStyled } from "./Login.style";
 import { InputField } from "../../Components/FormComponents";
 import { Alert, Button } from "antd";
 import * as yup from "yup";
+import { useNavigate } from 'react-router';
 
 const initialValues: LoginValues = {
   email: "",
@@ -16,23 +17,21 @@ const initialValues: LoginValues = {
 
 const Login = (): JSX.Element => {
   const [apierrors, setErrors] = useState<string>("");
-const [loading, setLoading] = useState(false);
-
-  const handleLogin = React.useCallback(
-      (values: any) => {
-          setLoading(true);
-          authenticateUser(values)
-              .then(resp => {
-                  setLoading(false);
-                  setErrors('');
-              })
-              .catch(e => {
-                  setLoading(false);
-                  setErrors(e.message);
-              });
-      },
-      [],
-  );
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleLogin = React.useCallback((values: any) => {
+    setLoading(true);
+    authenticateUser(values)
+      .then((resp) => {
+        setLoading(false);
+        setErrors("");
+        navigate('/users', { replace: true })
+      })
+      .catch((e) => {
+        setLoading(false);
+        setErrors(e.message);
+      });
+  }, []);
 
   const LoginValidationSchema = yup.object().shape({
     email: yup.string().email("Invalid Email").required(),
@@ -40,7 +39,6 @@ const [loading, setLoading] = useState(false);
   });
 
   return (
-      
     <Card title="Login">
       <Formik
         initialValues={initialValues}
@@ -48,13 +46,7 @@ const [loading, setLoading] = useState(false);
         validationSchema={LoginValidationSchema}
         validateOnBlur={false}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleSubmit,
-          
-        }) => (
+        {({ values, errors, touched, handleSubmit }) => (
           <LoginFormStyled>
             <div className="login-form">
               <InputField
@@ -93,7 +85,7 @@ const [loading, setLoading] = useState(false);
                 LOGIN
               </Button>
             </div>
-            {apierrors && < Alert message={apierrors} type="error" closable />}
+            {apierrors && <Alert message={apierrors} type="error" closable />}
           </LoginFormStyled>
         )}
       </Formik>

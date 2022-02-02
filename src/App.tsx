@@ -9,6 +9,8 @@ import Login from "./Pages/Login";
 import "antd/dist/antd.css";
 import PublicAppLayout from "./PublicAppLayout";
 import PrivateRoute from "./CustomRoute/PrivateRoute";
+import Navbar from "./Components/NavBar/Navbar";
+import Users from "./Pages/Users/Users";
 
 export default function App() {
   return (
@@ -18,10 +20,15 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Routes>
           <React.Fragment>
-            <Route path="/about" element={<PrivateRoute>
-              <About/>
-            </PrivateRoute>} />
-            <Route path="/users" element={<Users />} />
+            <Route
+              path="/users"
+              element={
+                <PrivateRoute>
+                  <Navbar />
+                  <Users />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/"
               element={
@@ -41,11 +48,3 @@ export default function App() {
   );
 }
 
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
