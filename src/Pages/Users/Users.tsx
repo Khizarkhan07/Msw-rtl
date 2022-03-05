@@ -1,11 +1,9 @@
 import { List, Avatar, Spin } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { getUsers } from "./Users.service";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  console.log(users);
   useEffect(() => {
     getUsers()
       .then((data) => setUsers(data.users))
@@ -14,7 +12,7 @@ const Users = () => {
   return (
     <div>
       {!users.length ? (
-        <Spin size="large" style={{ marginTop: "20%", marginLeft: "50%" }} />
+        <Spin data-testid="loader" size="large" style={{ marginTop: "20%", marginLeft: "50%" }} />
       ) : (
         <div style={{padding: '25px'}}>
           <List
