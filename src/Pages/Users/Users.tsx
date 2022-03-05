@@ -12,14 +12,18 @@ const Users = () => {
   return (
     <div>
       {!users.length ? (
-        <Spin data-testid="loader" size="large" style={{ marginTop: "20%", marginLeft: "50%" }} />
+        <Spin
+          data-testid="loader"
+          size="large"
+          style={{ marginTop: "20%", marginLeft: "50%" }}
+        />
       ) : (
-        <div style={{padding: '25px'}}>
+        <div style={{ padding: "25px" }}>
           <List
             itemLayout="horizontal"
             dataSource={users.length ? users : []}
             renderItem={(item: any) => (
-              <List.Item>
+              <List.Item data-testid="list-item">
                 <List.Item.Meta
                   avatar={
                     <Avatar
